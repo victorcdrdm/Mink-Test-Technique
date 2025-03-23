@@ -1,4 +1,16 @@
 services:
+  node:
+    build:
+      context: ./node
+    volumes:
+      - ./node:/var/www/
+    ports: 
+      - target: 3000
+        published: ${HTTP_PORT:-3000}
+        protocol: tcp  
+    depends_on:
+      - php
+    tty: true
   php:
     image: ${IMAGES_PREFIX:-}app-php
     restart: unless-stopped
