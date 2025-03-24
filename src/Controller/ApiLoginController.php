@@ -20,4 +20,9 @@ class ApiLoginController extends AbstractController
             'phone' => $user->getPhoneNumber(),
         ]);
     }
+
+    #[Route('/api/logout', name: 'api_logout')]
+    public function logout()
+    {   
+    }
 }
