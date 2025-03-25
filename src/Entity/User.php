@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[Assert\NotBlank(groups: ['user:create'])]
-    #[Groups(['user:create', 'user:update'])]
+    #[Groups(['user:create', 'user:update', 'user:read'])]
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -146,6 +146,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->phoneNumber;
     }
 
+    #[Groups(['user:create', 'user:update', 'user:read'])]
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
