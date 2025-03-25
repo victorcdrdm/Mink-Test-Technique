@@ -2,9 +2,28 @@
 
 namespace App\Entity;
 
-use App\Repository\BreedRepository;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use App\ApiResource\AnimalType;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BreedRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Post(),
+        new Get(),
+        new Patch(),
+        new Delete(),
+    ],
+    normalizationContext: ['groups' => ['breed:create']],
+    denormalizationContext: ['groups' => ['breed:create', 'breed:update', 'breed:read']],
+)]
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
 class Breed
 {
@@ -13,9 +32,11 @@ class Breed
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('breed:create', 'breed:update', 'breed:read')]
     #[ORM\Column(length: 36)]
-    private ?string $type = null;
+    private ?AnimalType $type = null;
 
+    #[Groups('breed:create', 'breed:update', 'breed:read')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -24,19 +45,18 @@ class Breed
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getType(): ?AnimalType
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(?AnimalType $type): static
     {
         $this->type = $type;
 
         return $this;
     }
-
-    public function getName(): ?string
+     public function getName(): ?string
     {
         return $this->name;
     }
