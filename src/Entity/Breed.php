@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use App\ApiResource\AnimalType;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BreedRepository;
 use ApiPlatform\Metadata\ApiResource;
@@ -21,8 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(),
         new Delete(),
     ],
-    normalizationContext: ['groups' => ['breed:create']],
-    denormalizationContext: ['groups' => ['breed:create', 'breed:update', 'breed:read']],
+    normalizationContext: ['groups' => ['breed']],
+    denormalizationContext: ['groups' => ['breed']],
 )]
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
 class Breed
@@ -32,13 +34,25 @@ class Breed
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('breed:create', 'breed:update', 'breed:read')]
+    #[Groups( 'breed','animal')]
     #[ORM\Column(length: 36)]
     private ?AnimalType $type = null;
 
-    #[Groups('breed:create', 'breed:update', 'breed:read')]
+    #[Groups('breed','animal')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    /**
+     * @var Collection<int, Animal>
+     */
+    #[Groups( 'breed')]
+    #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'breed')]
+    private Collection $animals;
+
+    public function __construct()
+    {
+        $this->animals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -64,6 +78,36 @@ class Breed
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Animal>
+     */
+    public function getAnimals(): Collection
+    {
+        return $this->animals;
+    }
+
+    public function addAnimal(Animal $animal): static
+    {
+        if (!$this->animals->contains($animal)) {
+            $this->animals->add($animal);
+            $animal->setBreed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnimal(Animal $animal): static
+    {
+        if ($this->animals->removeElement($animal)) {
+            // set the owning side to null (unless already changed)
+            if ($animal->getBreed() === $this) {
+                $animal->setBreed(null);
+            }
+        }
 
         return $this;
     }
