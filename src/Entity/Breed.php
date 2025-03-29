@@ -2,18 +2,25 @@
 
 namespace App\Entity;
 
+use App\Entity\Animal;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 use App\ApiResource\AnimalType;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use App\ApiResource\CategoryType;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\BreedRepository;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Validator\ValidBreedTypeCategory;
+use Doctrine\Common\Collections\Collection;
+use App\Controller\GetBreedsByTypeController;
+use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
@@ -27,6 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['breed']],
 )]
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
+#[ValidBreedTypeCategory]
 class Breed
 {
     #[ORM\Id]
@@ -41,6 +49,10 @@ class Breed
     #[Groups(['animal', 'breed'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[Groups(['animal' , 'breed'])]
+    #[ORM\Column(length: 36)]
+    private ?CategoryType $category = null;
 
     /**
      * @var Collection<int, Animal>
@@ -108,6 +120,18 @@ class Breed
                 $animal->setBreed(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?CategoryType
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CategoryType $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
