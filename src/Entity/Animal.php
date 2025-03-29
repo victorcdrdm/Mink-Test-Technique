@@ -18,10 +18,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(),
+        new Post(security: 'is_granted("ROLE_ADMIN")'),
         new Get(),
-        new Patch(),
-        new Delete(),
+        new Patch(security: 'is_granted("ROLE_ADMIN")'),
+        new Delete(security: 'is_granted("ROLE_ADMIN")'),
     ],
     normalizationContext: ['groups' => ['animal']],
     denormalizationContext: ['groups' => ['animal']],

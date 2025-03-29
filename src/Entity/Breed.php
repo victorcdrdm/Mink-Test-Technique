@@ -18,10 +18,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(),
+        new Post(security: 'is_granted("ROLE_ADMIN")'),
         new Get(),
-        new Patch(),
-        new Delete(),
+        new Patch(security: 'is_granted("ROLE_ADMIN")'),
+        new Delete(security: 'is_granted("ROLE_ADMIN")'),
     ],
     normalizationContext: ['groups' => ['breed']],
     denormalizationContext: ['groups' => ['breed']],
@@ -34,11 +34,11 @@ class Breed
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups( 'breed','animal')]
+    #[Groups(['animal' , 'breed'])]
     #[ORM\Column(length: 36)]
     private ?AnimalType $type = null;
 
-    #[Groups('breed','animal')]
+    #[Groups(['animal', 'breed'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
