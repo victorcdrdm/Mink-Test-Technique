@@ -13,6 +13,7 @@ use App\Repository\AnimalRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\GetAnimalsOnlyForSale;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -21,7 +22,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new GetCollection(),
         new Post(security: 'is_granted("ROLE_ADMIN")'),
-        new Get(),
+        new Get(controller: GetAnimalsOnlyForSale::class),
         new Patch(security: 'is_granted("ROLE_ADMIN")'),
         new Delete(security: 'is_granted("ROLE_ADMIN")'),
     ],
@@ -66,6 +67,11 @@ class Animal
     #[ApiProperty(security: 'is_granted("ROLE_ADMIN")')]
     #[ORM\Column]
     private bool $forSaleSoon;
+
+    #[Groups(['animal'])]
+    private ?float $fullPrice = null;
+
+    private const RANK_TAXES = 1.055;
 
     public function getId(): ?int
     {
@@ -154,5 +160,13 @@ class Animal
         $this->forSaleSoon = $forSaleSoon;
 
         return $this;
+    }
+
+    /**
+     * Get the value of fullPrice
+     */
+    public function getFullPrice(): ?float
+    {
+        return $this->getPriceExcludingTax() * self::RANK_TAXES;
     }
 }
