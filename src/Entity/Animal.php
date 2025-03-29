@@ -8,10 +8,12 @@ use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\AnimalRepository;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
@@ -25,7 +27,10 @@ use Symfony\Component\Serializer\Attribute\Groups;
     ],
     normalizationContext: ['groups' => ['animal']],
     denormalizationContext: ['groups' => ['animal']],
-)]class Animal
+)]
+#[ApiFilter(BooleanFilter::class, properties: ['forSale', 'forSaleSoon'])]
+
+class Animal
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
