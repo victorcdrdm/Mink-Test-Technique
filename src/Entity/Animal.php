@@ -9,8 +9,10 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AnimalRepository;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 #[ApiResource(
@@ -21,8 +23,8 @@ use ApiPlatform\Metadata\GetCollection;
         new Patch(),
         new Delete(),
     ],
-    normalizationContext: ['groups' => ['animal:create']],
-    denormalizationContext: ['groups' => ['animal:create', 'animal:update', 'animal:read']],
+    normalizationContext: ['groups' => ['animal']],
+    denormalizationContext: ['groups' => ['animal']],
 )]class Animal
 {
     #[ORM\Id]
@@ -30,36 +32,35 @@ use ApiPlatform\Metadata\GetCollection;
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
+    #[Groups(['animal', 'breed'])]
     #[ORM\Column]
     private ?int $age = null;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
+    #[Groups(['animal'])]
     #[ORM\ManyToOne(inversedBy: 'animals')]
     private ?Breed $breed = null;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
+    #[Groups(['animal', 'breed'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
+    #[Groups(['animal', 'breed'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
-
+    #[Groups(['animal', 'breed'])]
     #[ORM\Column]
     private ?int $priceExcludingTax = null;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
-
+    #[Groups(['animal', 'breed'])]
+    #[ApiProperty(security: 'is_granted("ROLE_ADMIN")')]
     #[ORM\Column]
-    private ?bool $forSale = null;
+    private bool $forSale;
 
-    #[Groups(['animal:create', 'animal:update', 'animal:read'])]
-
+    #[Groups(['animal', 'breed'])]
+    #[ApiProperty(security: 'is_granted("ROLE_ADMIN")')]
     #[ORM\Column]
-    private ?bool $forSaleSoon = null;
+    private bool $forSaleSoon;
 
     public function getId(): ?int
     {

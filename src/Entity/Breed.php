@@ -23,8 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(),
         new Delete(),
     ],
-    normalizationContext: ['groups' => ['breed:create']],
-    denormalizationContext: ['groups' => ['breed:create', 'breed:update', 'breed:read']],
+    normalizationContext: ['groups' => ['breed']],
+    denormalizationContext: ['groups' => ['breed']],
 )]
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
 class Breed
@@ -34,17 +34,18 @@ class Breed
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('breed:create', 'breed:update', 'breed:read')]
+    #[Groups( 'breed','animal')]
     #[ORM\Column(length: 36)]
     private ?AnimalType $type = null;
 
-    #[Groups('breed:create', 'breed:update', 'breed:read')]
+    #[Groups('breed','animal')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Animal>
      */
+    #[Groups( 'breed')]
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'breed')]
     private Collection $animals;
 
