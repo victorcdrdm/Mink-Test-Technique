@@ -27,12 +27,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(),
         new Post(security: 'is_granted("ROLE_ADMIN")'),
         new Get(),
+        new Get(name: 'breeds_type', uriTemplate: 'breeds/type/{type}', controller: GetBreedsByTypeController::class),
         new Patch(security: 'is_granted("ROLE_ADMIN")'),
         new Delete(security: 'is_granted("ROLE_ADMIN")'),
     ],
     normalizationContext: ['groups' => ['breed']],
     denormalizationContext: ['groups' => ['breed']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['type' => 'exact'])]    
 #[ORM\Entity(repositoryClass: BreedRepository::class)]
 #[ValidBreedTypeCategory]
 class Breed
