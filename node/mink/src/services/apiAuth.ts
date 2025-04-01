@@ -34,7 +34,7 @@ export class ApiAuthService {
 
     async logout(): Promise<void> {
         try {
-            await axios.post(`${API_URL}/api/logout`);
+            await axios.post(`${API_URL}/logout`);
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
@@ -42,6 +42,17 @@ export class ApiAuthService {
             localStorage.removeItem('token');
             delete axios.defaults.headers.common['Authorization'];
         }
+    }
+
+    async getUser(): Promise<void> {
+        try {
+            const response = await axios.get(`${API_URL}/users/1`) 
+            if (response.status === 200 && response.data) {
+                return response.data;
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        }   
     }
 
     isAuthenticated(): boolean {
