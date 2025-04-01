@@ -25,6 +25,6 @@ class GetBreedsByTypeController extends AbstractController
 
         $breeds = $repository->findBy(['type' => $type]);
         $jsonContent = $serializer->serialize($breeds, 'json', ['groups' => 'breed']);
-        return new Response($jsonContent, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return new Response($jsonContent, Response::HTTP_OK, ['Content-Type' => 'application/ld+json']);
     }
 }

@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use App\Controller\GetAnimalsOnlyForSale;
+use App\Controller\GetAnimalsByBreed;
+use App\Controller\GetAnimalsByType;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -22,7 +24,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new GetCollection(),
         new Post(security: 'is_granted("ROLE_ADMIN")'),
-        new Get(controller: GetAnimalsOnlyForSale::class),
+        new Get(name: 'animals_by_user', uriTemplate: 'animals/by-users', controller: GetAnimalsOnlyForSale::class),
+        new Get(name: 'animals_breed', uriTemplate: 'animals/breed/{id}', controller: GetAnimalsByBreed::class),
+        new Get(name: 'animals_by_type', uriTemplate: 'animals/breed/type/{value}', controller: GetAnimalsByType::class),
         new Patch(security: 'is_granted("ROLE_ADMIN")'),
         new Delete(security: 'is_granted("ROLE_ADMIN")'),
     ],
@@ -35,6 +39,7 @@ class Animal
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['animal', 'breed'])]
     #[ORM\Column]
     private ?int $id = null;
 
