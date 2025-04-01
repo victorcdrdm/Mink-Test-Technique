@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/Login.vue'
 import AnimalList from '../components/AnimalList.vue'
-import Home from '../components/Home.vue'
+import AdminAnimalList from '../components/AdminAnimalList.vue'
+import BreedForm from '../components/BreedForm.vue'
 import { ApiAuthService } from '../services/apiAuth'
 
 const router = createRouter({
@@ -13,17 +14,18 @@ const router = createRouter({
       component: Login
     },
     {
-      path: '/',
-      name: 'Home',
-      component: Home,
-      
+      path: '/admin',
+      name: 'admin',
+      component: AdminAnimalList,
+      meta: { requiresAuth: true }
     },
     {
-      path: '/animals',
+      path: '/',
       name: 'Animals',
       component: AnimalList,
       meta: { requiresAuth: true }
-    }
+    },
+  
   ]
 })
 

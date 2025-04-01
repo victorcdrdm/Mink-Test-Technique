@@ -22,7 +22,7 @@ const loadAnimals = async (filters: { type: AnimalType | '', breed: string }) =>
     } else if (filters.type) {
       animals.value = await apiAnimalService.getAnimalsByBreedType(filters.type)
     } else {
-      animals.value = await apiAnimalService.getAllAnimals()
+      animals.value = await apiAnimalService.getAllAnimalsForUser()
     }
   } catch (err) {
     error.value = 'Error loading animals'

@@ -17,7 +17,7 @@ const handleLogin = async () => {
   
   try {
     await apiAuth.login(email.value, password.value)
-    router.push('/animals') // Redirect to animals list after successful login
+    router.push('/admin') // Redirect to animals list after successful login
   } catch (err) {
     error.value = 'Invalid email or password'
     console.error('Login error:', err)
