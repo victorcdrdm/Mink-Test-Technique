@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/Login.vue'
 import AnimalList from '../components/AnimalList.vue'
+import Home from '../components/Home.vue'
 import { ApiAuthService } from '../services/apiAuth'
 
 const router = createRouter({
@@ -12,14 +13,16 @@ const router = createRouter({
       component: Login
     },
     {
+      path: '/',
+      name: 'Home',
+      component: Home,
+      
+    },
+    {
       path: '/animals',
       name: 'Animals',
       component: AnimalList,
       meta: { requiresAuth: true }
-    },
-    {
-      path: '/',
-      redirect: '/animals'
     }
   ]
 })

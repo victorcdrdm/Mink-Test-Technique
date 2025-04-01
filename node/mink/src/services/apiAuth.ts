@@ -11,10 +11,10 @@ interface LoginResponse {
 }
 
 export class ApiAuthService {
-    async login(email: string, password: string): Promise<LoginResponse> {
+    async login(username: string, password: string): Promise<LoginResponse> {
         try {
-            const response = await axios.post<LoginResponse>(`${API_URL}/login`, {
-                email,
+            const response = await axios.post<LoginResponse>(`${API_URL}/api/login`, {
+                username,
                 password
             });
 
