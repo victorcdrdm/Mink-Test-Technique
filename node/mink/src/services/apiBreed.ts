@@ -4,7 +4,7 @@ import { API_URL } from "../types/enum/apiEnum";
 export class ApiBreedService {        
     async getAllBreeds(): Promise<Breed[]> {
         try {
-            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/api/breeds`);
+            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/breeds`);
             if (response.status === 200 && response.data.member) {
                 return response.data.member;
             }
@@ -17,7 +17,7 @@ export class ApiBreedService {
 
     async getBreedsByType(breedType: string): Promise<Breed[]> {
         try {
-            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/api/breeds/type/${breedType}`);
+            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/breeds/type/${breedType}`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }
@@ -30,7 +30,7 @@ export class ApiBreedService {
 
     async getBreedsById(id: number): Promise<Breed[]> {
         try {
-            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/api/breeds/${id}`);
+            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/breeds/${id}`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }

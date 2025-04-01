@@ -6,7 +6,7 @@ export class ApiAnimalService {
 
     async getAllAnimals(): Promise<Animal[]> {
         try {
-            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/api/animals/by-users`);
+            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/animals/by-users`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }
@@ -17,10 +17,10 @@ export class ApiAnimalService {
         }
     }
     
-    async getAnimalsByBreeId(id): Promise<Animal[]> {
+    async getAnimalsByBreeId(id: number): Promise<Animal[]> {
         console.log(id)
         try {
-            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/api/animals/breed/${id}`);
+            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/animals/breed/${id}`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }
@@ -33,7 +33,7 @@ export class ApiAnimalService {
 
     async getAnimalsByBreedType(type :string): Promise<Animal[]> {
         try {
-            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/api/animals/breed/type/${type}`);
+            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/animals/breed/type/${type}`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }
