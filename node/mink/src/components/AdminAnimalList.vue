@@ -2,16 +2,12 @@
 import { ref, onMounted } from 'vue'
 import { ApiAnimalService } from '../services/apiAnimal'
 import type { Animal } from '../types/model/animal'
-import type { User } from '../types/model/user'
 import { AnimalType } from '../types/enum/animalsTypeEnum'
 import AnimalFilter from './AnimalFilter.vue'
-import { ApiAuthService } from '../services/apiAuth'
 const apiAnimalService = new ApiAnimalService()
 const animals = ref<Animal[]>([])
-const user = ref<User | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
-const apiAuthService = new ApiAuthService()
 
 const loadAnimals = async (filters: { type: AnimalType | '', breed: string }) => {
   loading.value = true
@@ -32,9 +28,6 @@ const loadAnimals = async (filters: { type: AnimalType | '', breed: string }) =>
   }
 }
 
-const getPhoneNumber = async () => {
-  user.value = await apiAuthService.getUser()
-}
 const handleFilter = async (filters: { type: AnimalType | '', breed: string }) => {
   await loadAnimals(filters)
 }
@@ -75,8 +68,11 @@ onMounted(async () => {
             <td><span class="type-badge">{{ animal.breed.type }}</span></td>
             <td><span class="category-badge">{{ animal.breed.category }}</span></td>
             <td>{{ animal.age }} years</td>
-            <td>{{ animal.priceExcludingTax }}</td>
-            <td>{{ animal.fullPrice }}</td>
+            <td>{{ animal.description }} years</td>
+            <td>{{ animal.priceExcludingTax }}€</td>
+            <td>{{ animal.fullPrice }}€</td>
+            <td>{{ animal.forSale }}€</td>
+            <td>{{ animal.forSaleSoon }}€</td>
           </tr>
         </tbody>
       </table>

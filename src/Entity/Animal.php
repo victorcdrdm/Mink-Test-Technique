@@ -24,7 +24,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new GetCollection(),
         new Post(security: 'is_granted("ROLE_ADMIN")'),
-        new Get(name: 'animals_by_user', uriTemplate: 'animals/by-users', controller: GetAnimalsOnlyForSale::class),
+        new Get(),
+        new Get(name: 'animals_by_user', uriTemplate: 'animals/all/forsale', controller: GetAnimalsOnlyForSale::class),
         new Get(name: 'animals_breed', uriTemplate: 'animals/breed/{id}', controller: GetAnimalsByBreed::class),
         new Get(name: 'animals_by_type', uriTemplate: 'animals/breed/type/{value}', controller: GetAnimalsByType::class),
         new Patch(security: 'is_granted("ROLE_ADMIN")'),
