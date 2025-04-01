@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { ApiAuthService } from '../services/apiAuth'
 
 const router = useRouter()
+const route = useRoute()
 const apiAuth = new ApiAuthService()
 const isAuthenticated = ref(false)
 
@@ -11,11 +12,21 @@ const checkAuth = () => {
   isAuthenticated.value = apiAuth.isAuthenticated()
 }
 
-const handleLogout = () => {
-  apiAuth.logout()
-  router.push('/login')
+const handleLogout = async () => {
+  try {
+    await apiAuth.logout()
+    checkAuth() // Update the authentication state
+  } catch (error) {
+    console.error('Error during logout:', error)
+  }
 }
 
+// Watch for route changes to update auth state
+watch(() => route.path, () => {
+  checkAuth()
+})
+
+// Initial auth check
 onMounted(() => {
   checkAuth()
 })
@@ -28,7 +39,7 @@ onMounted(() => {
     </div>
     
     <div class="navbar-menu">
-      <router-link to="/animals" class="nav-link">Animals</router-link>
+      <router-link v-if="isAuthenticated" to="/animals" class="nav-link">Animals</router-link>
     </div>
 
     <div class="navbar-end">

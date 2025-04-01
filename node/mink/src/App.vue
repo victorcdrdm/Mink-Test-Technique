@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+// import { onMounted } from 'vue'
 import { ApiAuthService } from './services/apiAuth'
 import { useRouter } from 'vue-router'
+import NavBar from './components/NavBar.vue'
 
 const router = useRouter()
 const apiAuth = new ApiAuthService()
 
-onMounted(() => {
-  // Check if user is authenticated on app load
-  if (!apiAuth.isAuthenticated() && router.currentRoute.value.meta.requiresAuth) {
-    router.push('/login')
-  }
-})
+// onMounted(() => {
+//   // Check if user is authenticated on app load
+//   if (!apiAuth.isAuthenticated()) {
+//     router.push('/login')
+//   }
+// })
 </script>
 
 <template>
-  <router-view></router-view>
+  <div class="app">
+    <NavBar />
+    <main class="main-content">
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
 <style>
@@ -39,5 +45,16 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
 }
 </style>

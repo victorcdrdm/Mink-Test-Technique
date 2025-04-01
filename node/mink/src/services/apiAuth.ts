@@ -13,7 +13,7 @@ interface LoginResponse {
 export class ApiAuthService {
     async login(username: string, password: string): Promise<LoginResponse> {
         try {
-            const response = await axios.post<LoginResponse>(`${API_URL}/api/login`, {
+            const response = await axios.post<LoginResponse>(`${API_URL}/login`, {
                 username,
                 password
             });
@@ -32,9 +32,16 @@ export class ApiAuthService {
         }
     }
 
-    logout(): void {
-        localStorage.removeItem('token');
-        delete axios.defaults.headers.common['Authorization'];
+    async logout(): Promise<void> {
+        try {
+            await axios.post(`${API_URL}/api/logout`);
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            // Always clear local storage and headers, even if API call fails
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+        }
     }
 
     isAuthenticated(): boolean {
