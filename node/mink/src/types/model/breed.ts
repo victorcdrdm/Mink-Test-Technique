@@ -3,11 +3,11 @@ import { BreedCategory } from "../enum/breedCategoryEnum";
 import type { Animal } from "../model/animal";
 
 export interface Breed {
-    id: number;
+    id: string;
     name: string;
     category: BreedCategory;
     type: AnimalType;
-    animals?: Animal;
+    animals: Animal[];
 }
 
 export interface ApiResponse<T> {
@@ -20,4 +20,4 @@ export interface ApiResponse<T> {
     ...Partial<T>;
 }
 
-export type BreedCollection = ApiResponse<Breed>;
+export type BreedCollection = Breed[];

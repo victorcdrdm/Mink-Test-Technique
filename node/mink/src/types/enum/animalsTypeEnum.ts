@@ -1,8 +1,8 @@
 export enum AnimalType {
-    BOVINS = 'bovins',
-    OVINS = 'ovins'
+    BOVINS = 'vache',
+    OVINS = 'ovin'
 }
 
 export function parseAnimalType(type: string): AnimalType {
-  return type.toLowerCase() === 'bovins' ? AnimalType.BOVINS : AnimalType.OVINS;
+  return type.toLowerCase() === 'vache' ? AnimalType.BOVINS : AnimalType.OVINS;
 }

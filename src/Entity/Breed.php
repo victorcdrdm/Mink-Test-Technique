@@ -42,6 +42,7 @@ class Breed
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['animal', 'breed'])]
     private ?int $id = null;
 
     #[Groups(['animal' , 'breed'])]
