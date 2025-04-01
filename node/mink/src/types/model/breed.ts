@@ -11,11 +11,13 @@ export interface Breed {
 }
 
 export interface ApiResponse<T> {
-    '@context': string;
-    '@id': string;
-    '@type': string;
-    totalItems: number;
-    member: T[];
+    '@context'?: string;
+    '@id'?: string;
+    '@type'?: string;
+    'hydra:totalItems'?: number;
+    'hydra:member'?: T[];
+    // Si c'est un seul élément et non une collection
+    ...Partial<T>;
 }
 
 export type BreedCollection = Breed[];

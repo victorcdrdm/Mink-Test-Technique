@@ -1,23 +1,12 @@
+import type { Animal, ApiResponse } from "../types/model/animal";
 import axios from 'axios';
-import type { Breed, ApiResponse } from '../types/model/breed';
 import { API_URL } from "../types/enum/apiEnum";
-export class ApiBreedService {        
-    async getAllBreeds(): Promise<Breed[]> {
-        try {
-            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/api/breeds`);
-            if (response.status === 200 && response.data.member) {
-                return response.data.member;
-            }
-            throw new Error('Unexpected response format');
-        } catch (error) {
-            console.error('Error fetching breeds:', error);
-            throw error;
-        }
-    }
 
-    async getBreedsByType(breedType: string): Promise<Breed[]> {
+export class ApiAnimalService {
+
+    async getAllAnimals(): Promise<Animal[]> {
         try {
-            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/api/breeds/type/${breedType}`);
+            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/api/animals/by-users`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }
@@ -27,10 +16,24 @@ export class ApiBreedService {
             throw error;
         }
     }
-
-    async getBreedsById(id: number): Promise<Breed[]> {
+    
+    async getAnimalsByBreeId(id): Promise<Animal[]> {
+        console.log(id)
         try {
-            const response = await axios.get<ApiResponse<Breed>>(`${API_URL}/api/breeds/${id}`);
+            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/api/animals/breed/${id}`);
+            if (response.status === 200 && response.data) {
+                return response.data;
+            }
+            throw new Error('Unexpected response format');
+        } catch (error) {
+            console.error('Error fetching breeds:', error);
+            throw error;
+        }
+    } 
+
+    async getAnimalsByBreedType(type :string): Promise<Animal[]> {
+        try {
+            const response = await axios.get<ApiResponse<Animal>>(`${API_URL}/api/animals/breed/type/${type}`);
             if (response.status === 200 && response.data) {
                 return response.data;
             }
@@ -41,4 +44,3 @@ export class ApiBreedService {
         }
     }
 }
-

@@ -1,6 +1,7 @@
 import type { Breed } from "./breed";
 
 export interface Animal {
+    ['@id']: string
     age: number,
     description: string,
     breed: Breed,
@@ -15,10 +16,8 @@ export interface ApiResponse<T> {
     '@context'?: string;
     '@id'?: string;
     '@type'?: string;
-    'hydra:totalItems'?: number;
-    'hydra:member'?: T[];
-    // Si c'est un seul élément et non une collection
-    ...Partial<T>;
+    totalItems: number;
+    member: T[];
 }
 
-export type AnimalCollection = ApiResponse<Animal>;
+export type AnimalCollection = Animal[];
