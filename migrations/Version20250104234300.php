@@ -21,8 +21,8 @@ final class Version20240318000000 extends AbstractMigration
             ('Angus', 'bovin', 'viande'),
             ('Texas Longhorn', 'bovin', 'viande'),
             ('Hereford', 'bovin', 'viande'),
-            ('Holstein-Frisonne', 'bovin', 'lait'),
-            ('Guernesey', 'bovin', 'lait')
+            ('Holstein-Frisonne', 'bovin', 'laitiere'),
+            ('Guernesey', 'bovin', 'laitiere')
         ");
 
         // Insert sheep breeds (Ovins)

@@ -11,7 +11,7 @@ use ApiPlatform\Metadata\Operation;
 use Symfony\Component\Serializer\Annotation\Groups;
 enum AnimalType: string
 {
-    case COW = 'vache';
+    case COW = 'bovin';
     case SHEEP = 'ovin';
 
     public static function values(): array
