@@ -39,6 +39,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ValidBreedTypeCategory]
 class Breed
 {
+
+    public function __toString()
+    {
+        return $this->getName() . ' - ' . $this->getCategory()->value;
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -138,4 +143,5 @@ class Breed
 
         return $this;
     }
+
 }
