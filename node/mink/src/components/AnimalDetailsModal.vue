@@ -28,7 +28,7 @@ defineProps<{
           <div class="detail-row">
             <span class="label">Age:</span>
             <div class="value-box">
-              <span class="value">{{ animal.age }} years</span>
+              <span class="value">{{ animal.age }} ans</span>
             </div>
           </div>
           <div class="detail-row">
@@ -44,7 +44,7 @@ defineProps<{
           <div class="detail-row" v-if="animal.description">
             <span class="label">Description:</span>
             <div class="value-box">
-              <span class="value description-text">{{ animal.description }}</span>
+              <span class="value description-text">{{ animal.description.replace(/<[^>]*>/g, '') }}</span>
             </div>
           </div>
         </div>

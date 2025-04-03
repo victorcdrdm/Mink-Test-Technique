@@ -2,7 +2,6 @@
 // import { onMounted } from 'vue'
 import { ApiAuthService } from './services/apiAuth'
 import { useRouter } from 'vue-router'
-import NavBar from './components/NavBar.vue'
 
 const router = useRouter()
 const apiAuth = new ApiAuthService()
