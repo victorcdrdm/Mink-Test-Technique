@@ -51,7 +51,7 @@ class AnimalCrudController extends AbstractCrudController
                     ->findAll()
             )->setRequired(true),
             ImageField::new('picture')
-            ->setBasePath('images/')
+                ->setBasePath('images/')
                 ->setUploadDir('public/images'),
             NumberField::new('priceExcludingTax'),
             TextEditorField::new('description'),

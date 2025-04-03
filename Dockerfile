@@ -52,6 +52,7 @@ RUN set -eux; \
 	mkdir -p public/images \
 	chmod 775 /app/public/images/ \
 	chown www-data:www-data /app/public/images/
+VOLUME /app/public/images/
 
 ENTRYPOINT ["docker-entrypoint"]
 
