@@ -5,21 +5,22 @@ namespace App\Controller\Admin;
 use App\Entity\Breed;
 use App\Entity\Animal;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\DBAL\Types\FloatType;
 use Doctrine\ORM\EntityRepository;
 use App\Repository\BreedRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\FloatType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 
 class AnimalCrudController extends AbstractCrudController  
 {
@@ -49,6 +50,9 @@ class AnimalCrudController extends AbstractCrudController
                     ->getRepository(Breed::class)
                     ->findAll()
             )->setRequired(true),
+            ImageField::new('picture')
+            ->setBasePath('images/')
+                ->setUploadDir('public/images'),
             NumberField::new('priceExcludingTax'),
             TextEditorField::new('description'),
             BooleanField::new('forSale'),
