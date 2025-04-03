@@ -6,12 +6,16 @@ import type { User } from '../types/model/user'
 import { AnimalType } from '../types/enum/animalsTypeEnum'
 import AnimalFilter from './AnimalFilter.vue'
 import { ApiAuthService } from '../services/apiAuth'
+import AnimalDetailsModal from './AnimalDetailsModal.vue'
+
 const apiAnimalService = new ApiAnimalService()
 const animals = ref<Animal[]>([])
 const user = ref<User | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const apiAuthService = new ApiAuthService()
+const selectedAnimal = ref<Animal | null>(null)
+const showModal = ref(false)
 
 const loadAnimals = async (filters: { type: AnimalType | '', breed: string }) => {
   loading.value = true
@@ -35,8 +39,19 @@ const loadAnimals = async (filters: { type: AnimalType | '', breed: string }) =>
 const getPhoneNumber = async () => {
   user.value = await apiAuthService.getUser()
 }
+
 const handleFilter = async (filters: { type: AnimalType | '', breed: string }) => {
   await loadAnimals(filters)
+}
+
+const openModal = (animal: Animal) => {
+  selectedAnimal.value = animal
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  selectedAnimal.value = null
 }
 
 onMounted(async () => {
@@ -61,26 +76,32 @@ onMounted(async () => {
       <table>
         <thead>
           <tr>
-            <th>Breed Name</th>
+            <th>Race</th>
             <th>Type</th>
-            <th>Category</th>
+            <th>Catégorie</th>
             <th>Age</th>
-            <th>Price (Excl. Tax)</th>
-            <th>Full Price</th>
+            <th>Prix HT</th>
+            <th>Prix TTC</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="animal in animals" :key="animal['@id']">
+          <tr v-for="animal in animals" :key="animal['@id']" @click="openModal(animal)" class="clickable-row">
             <td>{{ animal.breed.name }}</td>
             <td><span class="type-badge">{{ animal.breed.type }}</span></td>
             <td><span class="category-badge">{{ animal.breed.category }}</span></td>
-            <td>{{ animal.age }} years</td>
+            <td>{{ animal.age }} ans</td>
             <td>{{ animal.priceExcludingTax }}</td>
-            <td>{{ animal.fullPrice }}</td>
+            <td>{{ animal.fullPrice.toFixed(2) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <AnimalDetailsModal 
+      v-if="showModal && selectedAnimal" 
+      :animal="selectedAnimal"
+      @close="closeModal"
+    />
   </div>
 </template>
 
@@ -125,6 +146,15 @@ th {
 
 tr:hover {
   background-color: #f8f9fa;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clickable-row:hover {
+  background-color: #e9ecef;
 }
 
 .type-badge, .category-badge {

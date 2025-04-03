@@ -60,23 +60,23 @@ const resetFilters = () => {
     <div class="filter-group">
       <label for="type">Animal Type:</label>
       <select id="type" v-model="selectedType" @change="handleTypeChange">
-        <option value="">All Types</option>
+        <option value="">Tous les types</option>
         <option :value="AnimalType.BOVINS">Bovins</option>
         <option :value="AnimalType.OVINS">Ovins</option>
       </select>
     </div>
 
     <div class="filter-group">
-      <label for="breed">Breed:</label>
+      <label for="breed">Race:</label>
       <select id="breed" v-model="selectedBreed" @change="handleFilter">
-        <option value="">All Breeds</option>
+        <option value="">Toutes les races</option>
         <option v-for="breed in breeds" :key="breed.id" :value="breed.id">
           {{ breed.name }}
         </option>
       </select>
     </div>
 
-    <button class="reset-button" @click="resetFilters">Reset Filters</button>
+    <button class="reset-button" @click="resetFilters">Réinitialiser</button>
   </div>
 </template>
 

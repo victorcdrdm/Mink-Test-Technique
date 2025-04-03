@@ -1,23 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../components/Login.vue'
 import AnimalList from '../components/AnimalList.vue'
-import AdminAnimalList from '../components/AdminAnimalList.vue'
 import { ApiAuthService } from '../services/apiAuth'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/admin',
-      name: 'admin',
-      component: AdminAnimalList,
-      meta: { requiresAuth: true }
-    },
     {
       path: '/',
       name: 'Animals',
