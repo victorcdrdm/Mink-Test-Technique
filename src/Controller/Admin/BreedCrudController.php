@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\ApiResource\AnimalType;
 use App\ApiResource\CategoryType;
+use App\Entity\Animal;
 use App\Entity\Breed;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -23,18 +24,8 @@ class BreedCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name'),
-            ChoiceField::new('type')->setChoices(
-                [
-                    AnimalType::COW->value => AnimalType::COW->name,
-                    AnimalType::SHEEP->value => AnimalType::SHEEP->name
-                ]
-            ),
-            ChoiceField::new('category')->setChoices(
-                [
-                    CategoryType::VIANDE->value => CategoryType::VIANDE->name,
-                    CategoryType::LAITIERE->value => CategoryType::LAITIERE->name,
-                ]
-            )
+            ChoiceField::new('type')->setChoices(AnimalType::cases()),
+            ChoiceField::new('category')->setChoices(CategoryType::cases())
         ];
     }
 }
